@@ -1,11 +1,14 @@
 require "models/pieces/chess_piece"
-require "constants/chess_board_constants"
+require "utilities/chess_board_constants"
 
+# Bishop game piece
 class Bishop < ChessPiece
   def get_type
     :bishop
   end
 
+  # Bishop can move any number of spaces diagonally,
+  # but cannot jump over other pieces
   def get_moves
     northwest_moves = []
     northeast_moves = []

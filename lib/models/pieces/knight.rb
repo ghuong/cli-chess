@@ -1,5 +1,6 @@
 require "models/pieces/chess_piece"
 
+# Knight chess piece
 class Knight < ChessPiece
   def get_type
     :knight

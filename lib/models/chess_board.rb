@@ -1,10 +1,14 @@
 require "yaml"
 
-require "constants/chess_board_constants"
+require "utilities/chess_board_constants"
+require "utilities/chess_board_helpers"
 require "models/pieces/empty_space"
 
-# Barebones container supporting Marshal serialization
+# Container supporting YAML serialization
+# Contains ALL of the state necessary to save and load a game
 class ChessBoard
+include ChessBoardHelpers
+
   attr_reader :id
 
   def initialize(id, board = nil)
@@ -19,25 +23,26 @@ class ChessBoard
   end
 
   # Returns the ChessPiece at the given coordinates
-  # Raises error if coordinates invalid
+  # Returns false if coordinates are invalid
   def get_piece(row, col)
-    if not is_valid_coordinates?(row, col) then raise "Invalid coordinates" end
+    if not is_valid_coordinates?(row, col) then return nil end
     
     @board[row][col]
   end
 
   # Sets the ChessPiece at the given coordinates
   # If no piece provided, sets to EmptySpace
-  # Raises error if coordinates invalid
+  # Returns nil if coordinates are invalid
   def set_piece(row, col, piece = nil)
-    if not is_valid_coordinates?(row, col) then raise "Invalid coordinates" end
+    if not is_valid_coordinates?(row, col) then return false end
 
     if piece.nil? then piece = EmptySpace.new end
     
     @board[row][col] = piece
-    piece.board = self
     piece.row = row
     piece.col = col
+
+    return true
   end
 
   def to_yaml
@@ -48,6 +53,7 @@ class ChessBoard
     YAML.load(yaml)
   end
 
+  # Returns true iff the given coordinates are within the dimensions of the board
   def is_valid_coordinates?(row, col)
     (0...Constants::BOARD_DIMENSIONS).cover?(row) and
     (0...Constants::BOARD_DIMENSIONS).cover?(col)
