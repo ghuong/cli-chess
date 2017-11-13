@@ -4,7 +4,6 @@ describe ChessBoard do
 
   context 'my color is black' do
     let(:my_color) { :black }
-    subject { ChessBoard.new(0) }
     
     describe '#can_move' do
       context 'there is a white knight at (3, 3)' do

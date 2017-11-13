@@ -5,7 +5,7 @@ require "models/chess_board.rb"
 
 describe Knight do
 
-  let(:board) { ChessBoard.new(0) }
+  let(:board) { ChessBoard.new }
   subject { Knight.new(board, :black) }
 
   it 'is the given color' do

@@ -5,7 +5,7 @@ require "models/chess_board.rb"
 
 describe Bishop do
 
-  let(:board) { ChessBoard.new(0) }
+  let(:board) { ChessBoard.new }
   subject { Bishop.new(board, :black) }
 
   describe '#get_moves' do

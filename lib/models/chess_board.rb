@@ -1,24 +1,17 @@
-require "yaml"
-
 require "utilities/chess_board_constants"
 require "utilities/chess_board_helpers"
 require "models/pieces/empty_space"
 
-# Container supporting YAML serialization
-# Contains ALL of the state necessary to save and load a game
+# Holds bare minimum state for the chess board
 class ChessBoard
 include ChessBoardHelpers
 
   attr_reader :id
 
-  def initialize(id, board = nil)
-    @id = id
-    @board = board
-    if @board.nil?
-      @board = []
-      Constants::BOARD_DIMENSIONS.times do |row|
-        @board << [EmptySpace.new] * Constants::BOARD_DIMENSIONS
-      end
+  def initialize
+    @board = []
+    Constants::BOARD_DIMENSIONS.times do |row|
+      @board << [EmptySpace.new] * Constants::BOARD_DIMENSIONS
     end
   end
 
@@ -43,14 +36,6 @@ include ChessBoardHelpers
     piece.col = col
 
     return true
-  end
-
-  def to_yaml
-    YAML.dump(self)
-  end
-
-  def self.from_yaml(yaml)
-    YAML.load(yaml)
   end
 
   # Returns true iff the given coordinates are within the dimensions of the board

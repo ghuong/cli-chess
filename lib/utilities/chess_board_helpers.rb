@@ -1,5 +1,10 @@
 # Non-essential Helper methods mixed into ChessBoard
 module ChessBoardHelpers
+  # Reset the board with all pieces
+  def reset
+    
+  end
+
   # Moves the piece at (start_row, start_col) to (dest_row, dest_col)
   # This method provides no safeguards against invalid moves
   def move(start_row, start_col, dest_row, dest_col)
