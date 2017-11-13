@@ -35,5 +35,19 @@ describe ChessBoard do
         end
       end
     end
+
+    describe '#is_valid_coordinates?' do
+      context 'when given a negative row' do
+        it 'returns false' do
+          expect(subject.is_valid_coordinates?(-1, 0)).to be false
+        end
+      end
+
+      context 'when given (0, 0)' do
+        it 'returns true' do
+          expect(subject.is_valid_coordinates?(0, 0)).to be true
+        end
+      end
+    end
   end
 end

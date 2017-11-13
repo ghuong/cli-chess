@@ -1,5 +1,5 @@
 require "models/pieces/chess_piece"
-require "utilities/chess_board_constants"
+require "utilities/constants"
 
 # Bishop game piece
 class Bishop < ChessPiece
@@ -14,7 +14,7 @@ class Bishop < ChessPiece
     northeast_moves = []
     southwest_moves = []
     southeast_moves = []
-    (1...Constants::BOARD_DIMENSIONS).each do |step|
+    (1...ChessBoardConstants::BOARD_DIMENSIONS).each do |step|
       northwest_moves << { row: @row + step, col: @col - step }
       northeast_moves << { row: @row + step, col: @col + step }
       southwest_moves << { row: @row - step, col: @col - step }

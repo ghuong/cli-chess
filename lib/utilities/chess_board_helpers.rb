@@ -2,7 +2,11 @@
 module ChessBoardHelpers
   # Reset the board with all pieces
   def reset
-    
+    (2..5).each do |row|
+      (0...ChessBoardConstants::BOARD_DIMENSIONS).each do |col|
+        set_piece(row, col)
+      end
+    end
   end
 
   # Moves the piece at (start_row, start_col) to (dest_row, dest_col)
