@@ -1,3 +1,5 @@
+require "yaml"
+
 require "constants/chess_board_constants"
 require "models/pieces/empty_space"
 
@@ -38,15 +40,12 @@ class ChessBoard
     piece.col = col
   end
 
-  def marshal_dump
-    Marshal.dump({
-      id: @id, board: @board  
-    })
+  def to_yaml
+    YAML.dump(self)
   end
 
-  def self.marshal_load(marshalled)
-    data = Marshal.load(marshalled)
-    self.new(data[:id], data[:board])
+  def self.from_yaml(yaml)
+    YAML.load(yaml)
   end
 
   def is_valid_coordinates?(row, col)
