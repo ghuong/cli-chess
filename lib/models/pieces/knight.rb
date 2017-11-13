@@ -5,8 +5,10 @@ class Knight < ChessPiece
     :knight
   end
 
+  # The Knight can move in a L-shape, within the board,
+  # and never attacking an allied piece
   def get_moves
-    moves = [
+    [
       { row: @row + 1, col: @col + 2 },
       { row: @row + 1, col: @col - 2 },
       { row: @row + 2, col: @col + 1 },
@@ -16,7 +18,7 @@ class Knight < ChessPiece
       { row: @row - 2, col: @col + 1 },
       { row: @row - 2, col: @col - 1 }
     ].select do |move|
-      @board.is_valid_coordinates?(move[:row], move[:col])
+      [:blank_space, :enemy_piece].include? describe_location(move[:row], move[:col])
     end
   end
 end

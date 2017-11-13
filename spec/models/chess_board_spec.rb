@@ -38,7 +38,7 @@ describe ChessBoard do
       context 'after putting Knight at (3, 4)' do
         let(:row) { 3 }
         let(:col) { 4 }
-        before { subject.set_piece(row, col, Knight.new) }
+        before { subject.set_piece(row, col, Knight.new(subject, :black)) }
 
         it 'has a Knight there' do
           expect(subject.get_piece(row, col).get_type).to eql(:knight)

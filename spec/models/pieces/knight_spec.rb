@@ -13,6 +13,10 @@ describe Knight do
   end
 
   describe '#get_moves' do
+    def get_moves
+      Set.new(subject.get_moves)
+    end
+
     context 'when placed at (1, 1)' do
       before { board.set_piece(1, 1, subject) }
 
@@ -26,7 +30,7 @@ describe Knight do
       end
 
       it 'returns the four correct moves' do
-        expect(Set.new(subject.get_moves)).to eql(correct_moves)
+        expect(get_moves).to eql(correct_moves)
       end
     end
 
@@ -45,7 +49,7 @@ describe Knight do
       end
 
       it 'returns the six correct moves' do
-        expect(Set.new(subject.get_moves)).to eql(correct_moves)
+        expect(get_moves).to eql(correct_moves)
       end
     end
 
@@ -66,7 +70,21 @@ describe Knight do
       end
 
       it 'returns the eight correct moves' do
-        expect(Set.new(subject.get_moves)).to eql(correct_moves)
+        expect(get_moves).to eql(correct_moves)
+      end
+
+      context 'with same color piece on (4, 5)' do
+        before { board.set_piece(4, 5, Knight.new(nil, :black)) }
+        context 'with different color piece on (2, 5)' do
+          before { board.set_piece(2, 5, Knight.new(nil, :white)) }
+          it 'cannot move to (4, 5)' do
+            expect(get_moves).not_to include({row: 4, col: 5})
+          end
+
+          it 'can move to (2, 5)' do
+            expect(get_moves).to include({row: 2, col: 5})
+          end
+        end
       end
     end
   end

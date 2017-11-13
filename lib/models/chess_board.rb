@@ -33,6 +33,7 @@ class ChessBoard
     if piece.nil? then piece = EmptySpace.new end
     
     @board[row][col] = piece
+    piece.board = self
     piece.row = row
     piece.col = col
   end

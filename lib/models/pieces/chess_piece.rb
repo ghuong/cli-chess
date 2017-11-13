@@ -1,10 +1,10 @@
 # Defines a chess piece; note that "empty spaces" are also pieces
 # This class should not be instantiated directly
 class ChessPiece
-  attr_accessor :row, :col
-  attr_reader :color, :board
+  attr_accessor :row, :col, :board
+  attr_reader :color
 
-  def initialize(board = nil, color = nil)
+  def initialize(board, color)
     @board = board
     @color = color
   end
@@ -15,6 +15,21 @@ class ChessPiece
   # Return an array of legal moves
   # "Legal" means "not off the board"
   def get_moves; raise NotImplementedError end
+
+  def describe_location(row, col)
+    if not @board.is_valid_coordinates?(row, col)
+      return :off_board
+    else
+      piece = @board.get_piece(row, col)
+      if piece.is_blank_space?
+        :blank_space
+      elsif piece.color == @color
+        :ally_piece
+      else
+        :enemy_piece
+      end
+    end
+  end
 
   # Returns true iff this "piece" represents an empty space on the ChessBoard
   def is_blank_space?
