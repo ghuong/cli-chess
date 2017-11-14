@@ -1,4 +1,9 @@
 require "models/pieces/pawn"
+require "models/pieces/queen"
+require "models/pieces/king"
+require "models/pieces/bishop"
+require "models/pieces/rook"
+require "models/pieces/knight"
 
 # Non-essential Helper methods mixed into ChessBoard
 module ChessBoardHelpers
