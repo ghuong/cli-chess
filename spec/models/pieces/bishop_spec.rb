@@ -1,23 +1,17 @@
-require "set"
-
 require "models/pieces/bishop.rb"
 require "models/chess_board.rb"
 
-describe Bishop do
+shared_examples "a bishop" do
 
   let(:board) { ChessBoard.new }
-  subject { Bishop.new(board, :black) }
+  let(:subject) { described_class.new(board, :black) }
 
   describe '#get_moves' do
-    def get_moves
-      Set.new(subject.get_moves)
-    end
-
     context 'when placed at (0, 0)' do
       before { board.set_piece(0, 0, subject) }
 
       def correct_moves
-        Set.new([
+        [
           { row: 1, col: 1 },
           { row: 2, col: 2 },
           { row: 3, col: 3 },
@@ -25,11 +19,11 @@ describe Bishop do
           { row: 5, col: 5 },
           { row: 6, col: 6 },
           { row: 7, col: 7 }
-        ])
+        ]
       end
 
       it 'returns seven correct moves' do
-        expect(get_moves).to eql(correct_moves)
+        expect(subject.get_moves).to include(*correct_moves)
       end
     end
 
@@ -37,7 +31,7 @@ describe Bishop do
       before { board.set_piece(4, 4, subject) }
 
       def correct_moves
-        Set.new([
+        [
           { row: 0, col: 0 },
           { row: 1, col: 1 },
           { row: 2, col: 2 },
@@ -53,11 +47,11 @@ describe Bishop do
           { row: 5, col: 3 },
           { row: 6, col: 2 },
           { row: 7, col: 1 },
-        ])
+        ]
       end
 
       it 'returns thirteen correct moves' do
-        expect(get_moves).to eql(correct_moves)
+        expect(subject.get_moves).to include(*correct_moves)
       end
 
       context 'with same color piece on (6, 6)' do
@@ -66,16 +60,30 @@ describe Bishop do
           before { board.set_piece(2, 2, Knight.new(board, :white)) }
 
           it 'cannot move to (6, 6) nor (7, 7)' do
-            expect(get_moves).not_to include({ row: 6, col: 6 })
-            expect(get_moves).not_to include({ row: 7, col: 7 })
+            expect(subject.get_moves).not_to include({ row: 6, col: 6 })
+            expect(subject.get_moves).not_to include({ row: 7, col: 7 })
           end
 
           it 'can move to (2, 2), but not (1, 1)' do
-            expect(get_moves).to include({ row: 2, col: 2 })
-            expect(get_moves).not_to include({ row: 1, col: 1 })
+            expect(subject.get_moves).to include({ row: 2, col: 2 })
+            expect(subject.get_moves).not_to include({ row: 1, col: 1 })
           end
         end
       end
+    end
+  end
+end
+
+describe Bishop do
+  it_behaves_like "a bishop"
+
+  context 'when at (0, 0)' do
+    before { board.set_piece(0, 0, subject) }
+    let(:board) { ChessBoard.new }
+    subject { Bishop.new(board, :black) }
+
+    it 'has seven moves' do
+      expect(subject.get_moves.length).to eql(7)
     end
   end
 end

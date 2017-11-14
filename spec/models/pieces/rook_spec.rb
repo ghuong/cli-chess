@@ -1,23 +1,16 @@
-require "set"
-
 require "models/pieces/rook.rb"
 require "models/chess_board.rb"
 
-describe Rook do
-
+shared_examples "a rook" do
   let(:board) { ChessBoard.new }
-  subject { Rook.new(board, :black) }
+  let(:subject) { described_class.new(board, :black) }
 
   describe '#get_moves' do
-    def get_moves
-      Set.new(subject.get_moves)
-    end
-
     context 'when placed at (0, 0)' do
       before { board.set_piece(0, 0, subject) }
 
       def correct_moves
-        Set.new([
+        [
           { row: 0, col: 1 },
           { row: 0, col: 2 },
           { row: 0, col: 3 },
@@ -33,11 +26,11 @@ describe Rook do
           { row: 5, col: 0 },
           { row: 6, col: 0 },
           { row: 7, col: 0 },
-        ])
+        ]
       end
 
       it 'returns fourteen correct moves' do
-        expect(get_moves).to eql(correct_moves)
+        expect(subject.get_moves).to include(*correct_moves)
       end
     end
 
@@ -45,7 +38,7 @@ describe Rook do
       before { board.set_piece(4, 4, subject) }
 
       def correct_moves
-        Set.new([
+        [
           { row: 4, col: 0 },
           { row: 4, col: 1 },
           { row: 4, col: 2 },
@@ -61,11 +54,11 @@ describe Rook do
           { row: 5, col: 4 },
           { row: 6, col: 4 },
           { row: 7, col: 4 },
-        ])
+        ]
       end
 
       it 'returns fourteen correct moves' do
-        expect(get_moves).to eql(correct_moves)
+        expect(subject.get_moves).to include(*correct_moves)
       end
 
       context 'with same color piece on (4, 3)' do
@@ -74,16 +67,30 @@ describe Rook do
           before { board.set_piece(5, 4, Knight.new(board, :white)) }
 
           it 'cannot move to (4, 3) nor (4, 2)' do
-            expect(get_moves).not_to include({ row: 4, col: 3 })
-            expect(get_moves).not_to include({ row: 4, col: 2 })
+            expect(subject.get_moves).not_to include({ row: 4, col: 3 })
+            expect(subject.get_moves).not_to include({ row: 4, col: 2 })
           end
 
           it 'can move to (5, 4), but not (6, 4)' do
-            expect(get_moves).to include({ row: 5, col: 4 })
-            expect(get_moves).not_to include({ row: 6, col: 4 })
+            expect(subject.get_moves).to include({ row: 5, col: 4 })
+            expect(subject.get_moves).not_to include({ row: 6, col: 4 })
           end
         end
       end
+    end
+  end
+end
+
+describe Rook do
+  it_behaves_like "a rook"
+
+  context 'when at (0, 0)' do
+    before { board.set_piece(0, 0, subject) }
+    let(:board) { ChessBoard.new }
+    subject { Rook.new(board, :black) }
+
+    it 'has fourteen moves' do
+      expect(subject.get_moves.length).to eql(14)
     end
   end
 end

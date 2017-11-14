@@ -1,15 +1,15 @@
 require "models/pieces/chess_piece"
 require "utilities/constants"
 
-# Rook game piece
-class Rook < ChessPiece
+# Queen game piece
+class Queen < ChessPiece
 include ChessPieceHelpers
 
   def get_type
-    :rook
+    :queen
   end
 
   def get_moves
-    get_straight_moves
+    get_straight_moves + get_diagonal_moves
   end
 end

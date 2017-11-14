@@ -39,6 +39,42 @@ end
 
 # Non-essential helper methods for Chess Pieces
 module ChessPieceHelpers
+  # Return all legal moves, if moving straight
+  def get_straight_moves
+    north_moves = []
+    south_moves = []
+    west_moves = []
+    east_moves = []
+    (1...ChessBoardConstants::BOARD_DIMENSIONS).each do |step|
+      north_moves << { row: @row + step, col: @col }
+      south_moves << { row: @row - step, col: @col }
+      west_moves << { row: @row, col: @col - step }
+      east_moves << { row: @row, col: @col + step }
+    end
+    return select_legal_moves(north_moves) +
+           select_legal_moves(south_moves) +
+           select_legal_moves(west_moves) +
+           select_legal_moves(east_moves)
+  end
+
+  # Return all legals moves, if moving diagonally
+  def get_diagonal_moves
+    northwest_moves = []
+    northeast_moves = []
+    southwest_moves = []
+    southeast_moves = []
+    (1...ChessBoardConstants::BOARD_DIMENSIONS).each do |step|
+      northwest_moves << { row: @row + step, col: @col - step }
+      northeast_moves << { row: @row + step, col: @col + step }
+      southwest_moves << { row: @row - step, col: @col - step }
+      southeast_moves << { row: @row - step, col: @col + step }
+    end
+    return select_legal_moves(northwest_moves) +
+           select_legal_moves(northeast_moves) +
+           select_legal_moves(southwest_moves) +
+           select_legal_moves(southeast_moves)
+  end
+
   # Loop through the given array 'moves', upon reaching
   # a non-blank space, remove all subsequent moves
   def select_legal_moves(moves)
