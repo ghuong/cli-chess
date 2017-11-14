@@ -64,4 +64,13 @@ module ChessBoardHelpers
     piece.color == color and
       moves.include?({ row: dest_row, col: dest_col })
   end
+
+  # Get piece at given coordinates, e.g. 
+  def get_piece_by_conventional_coordinates(coord)
+    coord = coord.gsub(/[\s,]+/, "")
+    if coord.length != 2 then return nil end
+    row = coord[0].to_i - 1
+    col = coord[1].downcase.ord - "a".ord
+    get_piece(row, col)
+  end
 end
