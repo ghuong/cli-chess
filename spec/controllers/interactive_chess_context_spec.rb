@@ -1,4 +1,8 @@
-require "controllers/interactive_chess_state"
+require "controllers/umpire_states/interactive_chess_state"
+require "controllers/umpire_states/intro_state"
+require "controllers/umpire_states/load_state"
+require "controllers/umpire_states/play_state"
+require "controllers/umpire_states/save_state"
 require "models/chess_game_state"
 
 describe InteractiveChessStateContext do
