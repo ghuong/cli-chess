@@ -8,7 +8,7 @@ class Pawn < ChessPiece
 
   def get_moves
     direction_sign = @color == :white ? 1 : -1
-    starting_row = @color == :white ? 1 : ChessBoardConstants::BOARD_DIMENSIONS - 2
+    starting_row = Pawn.get_starting_row(@color)
 
     forward_moves = [{ row: @row + (1 * direction_sign), col: @col }]
     if @row == starting_row
@@ -27,5 +27,14 @@ class Pawn < ChessPiece
     end
 
     return forward_moves + attack_moves
+  end
+
+  def self.get_starting_row(color)
+    case color
+    when :white
+      1
+    when :black
+      ChessBoardConstants::BOARD_DIMENSIONS - 2
+    end
   end
 end

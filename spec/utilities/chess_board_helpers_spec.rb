@@ -15,15 +15,15 @@ describe ChessBoard do
           expect(subject.get_piece(3, 3).is_blank_space?).to be true
         end
 
-        # it 'has white king at (0, 4)' do
-        #   expect(subject.get_piece(0, 4).get_type).to eql(:king)
-        #   expect(subject.get_piece(0, 4).color).to eql(:white)
-        # end
+        it 'has white king at (0, 4)' do
+          expect(subject.get_piece(0, 4).get_type).to eql(:king)
+          expect(subject.get_piece(0, 4).color).to eql(:white)
+        end
 
-        # it 'has a black queen at (7, 3)' do
-        #   expect(subject.get_piece(7, 3).get_type).to eql(:queen)
-        #   expect(subject.get_piece(7, 3).color).to eql(:black)
-        # end
+        it 'has a black queen at (7, 3)' do
+          expect(subject.get_piece(7, 3).get_type).to eql(:queen)
+          expect(subject.get_piece(7, 3).color).to eql(:black)
+        end
       end
     end
 
