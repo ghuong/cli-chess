@@ -90,4 +90,27 @@ module ChessPieceHelpers
     end
     return legal_moves
   end
+
+  def get_pieces_which_can_move_to(row, col, color = nil)
+    pieces = []
+    (0...ChessBoardConstants::BOARD_DIMENSIONS).each do |r|
+      (0...ChessBoardConstants::BOARD_DIMENSIONS).each do |c|
+        piece = @board.get_piece(r, c)
+        next if not color.nil? and piece.color != color
+        if not piece.is_blank_space? and piece.get_moves.include?({ row: row, col: col })
+          pieces << piece
+        end
+      end
+    end
+    return pieces
+  end
+
+  def get_enemy_color
+    case @color
+    when :black
+      :white
+    when :white
+      :black
+    end
+  end
 end
