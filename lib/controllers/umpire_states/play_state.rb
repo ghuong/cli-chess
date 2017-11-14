@@ -8,11 +8,23 @@ class PlayState < InteractiveChessState
   end
 
   def display_intro
-    puts "New game started. Type 'quit' anytime to return to menu, or 'save' to save game."
+    puts "New game started."
   end
 
   def display_long_prompt
-    raise "Not implemented"
+    DisplayChessBoard.display_board(@game_data.board)
+    puts "Type 'quit' anytime to return to menu, or 'save' to save game."
+    puts "Submit your commands by specifying two coordinates: the piece you want to move, and the space you want to go."
+    puts "e.g. '1d 3d' will move the white pawn at 1d to 3d"
+  end
+
+  def display_short_prompt
+    DisplayChessBoard.display_board(@game_data.board)
+  end
+
+  def display_prompt
+    color = @game_data.current_player == :white ? "White" : "Black"
+    puts "#{color} players turn: "
   end
 
   def process_input(command)

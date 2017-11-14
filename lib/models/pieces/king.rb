@@ -1,4 +1,5 @@
 require "models/pieces/chess_piece"
+require "models/chess_game_state"
 require "utilities/constants"
 
 # King game piece
@@ -26,6 +27,6 @@ include ChessPieceHelpers
   end
 
   def is_in_check?(row = @row, col = @col)
-    not get_pieces_which_can_move_to(row, col, get_enemy_color).empty?
+    not get_pieces_which_can_move_to(row, col, ChessGameState.get_enemy_color(@color)).empty?
   end
 end

@@ -104,13 +104,4 @@ module ChessPieceHelpers
     end
     return pieces
   end
-
-  def get_enemy_color
-    case @color
-    when :black
-      :white
-    when :white
-      :black
-    end
-  end
 end
