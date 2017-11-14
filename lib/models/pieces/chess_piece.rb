@@ -36,3 +36,22 @@ class ChessPiece
     get_type == :empty
   end
 end
+
+# Non-essential helper methods for Chess Pieces
+module ChessPieceHelpers
+  # Loop through the given array 'moves', upon reaching
+  # a non-blank space, remove all subsequent moves
+  def select_legal_moves(moves)
+    legal_moves = []
+    moves.each do |move|
+      description = describe_location(move[:row], move[:col])
+      
+      if [:blank_space, :enemy_piece].include? description
+        legal_moves << move
+      end
+
+      break if description != :blank_space
+    end
+    return legal_moves
+  end
+end

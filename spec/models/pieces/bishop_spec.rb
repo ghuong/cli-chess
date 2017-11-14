@@ -56,7 +56,7 @@ describe Bishop do
         ])
       end
 
-      it 'returns eighteen correct moves' do
+      it 'returns thirteen correct moves' do
         expect(get_moves).to eql(correct_moves)
       end
 
