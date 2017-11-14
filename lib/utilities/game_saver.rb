@@ -28,7 +28,10 @@ module GameSaver
   end
 
   # Loads and returns the game object from the saved games directory
+  # Else it returns nil
   def self.load_game_by_id(game_id)
+    valid_ids = get_list_of_saved_games.select { |save| save[:id] }
+    if not valid_ids.include? game_id then return nil end
     yaml = load_yaml_by_filename(get_save_file_name(game_id))
     YAML.load(yaml[:game_state_yaml])
   end
@@ -39,7 +42,13 @@ module GameSaver
     YAML.load(yaml)
   end
 
+  # Construct the name of the save file for the given game id
   def self.get_save_file_name(game_id)
     GameStateConstants::SAVED_GAMES_DIR + "game_#{game_id}" + GameStateConstants::SAVED_GAME_EXTENSION
+  end
+
+  # Get a unique game id
+  def self.get_unique_id
+    get_list_of_saved_games.length
   end
 end
