@@ -71,30 +71,10 @@ describe ChessBoard do
       end
     end
 
-    describe '#get_piece_by_conventional_coordinates' do
-      context 'given "2D"' do
-        it 'calls get_piece with row: 1, col: 3' do
-          expect(subject).to receive(:get_piece).with(1, 3)
-          subject.get_piece_by_conventional_coordinates("2D")
-        end
-      end
-
-      context 'given "2, D"' do
-        it 'calls get_piece with row: 1, col: 3' do
-          expect(subject).to receive(:get_piece).with(1, 3)
-          subject.get_piece_by_conventional_coordinates("2, D")
-        end
-      end
-
-      context 'given "9D"' do
-        it 'returns nil' do
-          expect(subject.get_piece_by_conventional_coordinates("9D")).to be nil
-        end
-      end
-
-      context 'given "2DD"' do
-        it 'returns nil' do
-          expect(subject.get_piece_by_conventional_coordinates("2DD")).to be nil
+    describe '#conventional_coordinates_to_indices' do
+      context 'given row: "2", col: "D"' do
+        it 'returns [1, 3]' do
+          expect(ChessBoardHelpers.conventional_coordinates_to_indices("2", "D")).to eql([1, 3])
         end
       end
     end

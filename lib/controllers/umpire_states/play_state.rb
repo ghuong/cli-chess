@@ -1,4 +1,5 @@
 require "controllers/umpire_states/interactive_chess_state"
+require "controllers/umpire_states/intro_state"
 require "views/chess_view"
 
 class PlayState < InteractiveChessState
@@ -9,22 +10,26 @@ class PlayState < InteractiveChessState
 
   def display_intro
     puts "New game started."
+    puts
   end
 
   def display_long_prompt
     DisplayChessBoard.display_board(@game_data.board)
+    puts
     puts "Type 'quit' anytime to return to menu, or 'save' to save game."
     puts "Submit your commands by specifying two coordinates: the piece you want to move, and the space you want to go."
-    puts "e.g. '1d 3d' will move the white pawn at 1d to 3d"
+    puts "e.g. '2d 4d' will move the white pawn at 2d to 4d."
+    puts
   end
 
   def display_short_prompt
     DisplayChessBoard.display_board(@game_data.board)
+    puts
   end
 
-  def display_prompt
+  def display_prompt_sign
     color = @game_data.current_player == :white ? "White" : "Black"
-    puts "#{color} players turn: "
+    print "#{color} players turn: "
   end
 
   def process_input(command)
@@ -34,7 +39,21 @@ class PlayState < InteractiveChessState
     when "save"
       @context.set_state(SaveState.new(@context, self))
     else
-      raise "Not implemented"
+      coords = command.gsub(/[\s,]+/, "")
+      if coords.length == 4
+        start_row, start_col = ChessBoardHelpers.conventional_coordinates_to_indices(coords[0], coords[1])
+        destination_row, destination_col = ChessBoardHelpers.conventional_coordinates_to_indices(coords[2], coords[3])
+        if @game_data.board.can_move?(start_row, start_col, destination_row, destination_col, @game_data.current_player)
+          @game_data.board.move(start_row, start_col, destination_row, destination_col)
+          if @game_data.checkmate? ChessGameState.get_enemy_color(@game_data.current_player)
+            return @game_data.current_player.to_s
+          end
+          @game_data.switch_player
+          return
+        end
+      end
+      puts "Sorry, that move is not valid."
+      puts
     end
   end
 

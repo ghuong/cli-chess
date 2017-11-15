@@ -6,8 +6,8 @@ class SaveState < InteractiveChessState
     @current_play_state = current_play_state
   end
 
-  def display_long_prompt
-    puts "Enter a name for your game: "
+  def display_prompt_sign
+    print "Enter a name for your game: "
   end
 
   def process_input(game_title)

@@ -9,6 +9,10 @@ class ChessGameState
     @current_player = :white
     @board = ChessBoard.new
     @board.reset
+    @kings = {
+      black: @board.get_piece(7, 4),
+      white: @board.get_piece(0, 4)
+    }
   end
 
   def self.get_enemy_color(color)
@@ -22,5 +26,9 @@ class ChessGameState
 
   def switch_player
     @current_player = ChessGameState.get_enemy_color(@current_player)
+  end
+
+  def checkmate?(color)
+    @kings[color].is_in_check? and @kings[color].get_moves.empty?
   end
 end

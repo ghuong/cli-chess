@@ -35,7 +35,7 @@ module DisplayChessBoard
     if piece.is_blank_space? then return " " end
 
     case piece.color
-    when :white
+    when :black
       case piece.get_type
       when :king
         "\u2654"
@@ -50,7 +50,7 @@ module DisplayChessBoard
       when :pawn
         "\u2659"
       end
-    when :black
+    when :white
       case piece.get_type
       when :king
         "\u265A"

@@ -10,7 +10,7 @@ include ChessPieceHelpers
     :king
   end
 
-  def get_moves
+  def get_moves(ignore_allies = false, be_safe = true)
     [
       { row: @row + 1, col: @col },
       { row: @row - 1, col: @col },
@@ -21,8 +21,10 @@ include ChessPieceHelpers
       { row: @row - 1, col: @col + 1 },
       { row: @row - 1, col: @col - 1 },
     ].select do |move|
-      [:blank_space, :enemy_piece].include? describe_location(move[:row], move[:col]) and
-        not is_in_check?(move[:row], move[:col])
+      allowed_destinations = [:blank_space, :enemy_piece]
+      allowed_destinations << :ally_piece if ignore_allies
+      allowed_destinations.include? describe_location(move[:row], move[:col]) and
+        (not be_safe or not is_in_check?(move[:row], move[:col]))
     end
   end
 

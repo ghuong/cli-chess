@@ -9,7 +9,8 @@ module ChessStateHelpers
   end
 
   def self.is_there_no_saved_games?
-    GameSaver.get_list_of_saved_games.empty?
+    saved_games = GameSaver.get_list_of_saved_games
+    saved_games.nil? or saved_games.empty?
   end
 
   def self.display_invalid_command_warning

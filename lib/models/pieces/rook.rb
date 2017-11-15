@@ -9,7 +9,7 @@ include ChessPieceHelpers
     :rook
   end
 
-  def get_moves
-    get_straight_moves
+  def get_moves(ignore_allies = false)
+    get_straight_moves(ignore_allies)
   end
 end

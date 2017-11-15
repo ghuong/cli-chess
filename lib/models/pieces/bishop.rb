@@ -11,7 +11,7 @@ include ChessPieceHelpers
 
   # Bishop can move any number of spaces diagonally,
   # but cannot jump over other pieces
-  def get_moves
-    get_diagonal_moves
+  def get_moves(ignore_allies = false)
+    get_diagonal_moves(ignore_allies)
   end
 end

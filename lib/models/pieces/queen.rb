@@ -9,7 +9,7 @@ include ChessPieceHelpers
     :queen
   end
 
-  def get_moves
-    get_straight_moves + get_diagonal_moves
+  def get_moves(ignore_allies = false)
+    get_straight_moves(ignore_allies) + get_diagonal_moves(ignore_allies)
   end
 end
