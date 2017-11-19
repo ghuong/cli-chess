@@ -28,7 +28,7 @@ class PlayState < UmpireState
   end
 
   def display_prompt_sign
-    color = @game_data.current_player == :white ? "White" : "Black"
+    color = @game.current_player == :white ? "White" : "Black"
     print "#{color} players turn: "
   end
 
@@ -50,15 +50,15 @@ class PlayState < UmpireState
       puts
     end
 
-    start_row, start_col, destination_row, destination_col = coords
+    start_row, start_col, destination_row, destination_col = coords[0], coords[1], coords[2], coords[3]
     if @game.can_move?(start_row, start_col, destination_row, destination_col)
-      @game_data.move(start_row, start_col, destination_row, destination_col)
-      if @game_data.checkmate? ChessGame.get_enemy_color(@game_data.current_player)
-        Display.display_board(@game_data.board)
+      @game.move(start_row, start_col, destination_row, destination_col)
+      if @game.checkmate? ChessGame.get_enemy_color(@game.current_player)
+        Display.display_game(@game)
         puts
-        return @game_data.current_player.to_s
+        return @game.current_player.to_s
       end
-      @game_data.switch_player
+      @game.switch_player
       return
     else
       puts "Sorry, that move in invalid."
