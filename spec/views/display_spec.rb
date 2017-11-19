@@ -1,7 +1,7 @@
-require "views/chess_view"
+require "views/display"
 require "models/chess_board"
 
-describe DisplayChessBoard do
+describe Display do
 
   let(:board) { ChessBoard.new }
   before { board.reset }

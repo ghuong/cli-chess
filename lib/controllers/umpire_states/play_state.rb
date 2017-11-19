@@ -1,11 +1,11 @@
 require "controllers/umpire_states/umpire_state"
 require "controllers/umpire_states/intro_state"
 require "controllers/umpire_states/save_state"
-require "views/chess_view"
+require "views/display"
 
 class PlayState < UmpireState
-  def initialize(game_data)
-    @game_data = game_data
+  def initialize(game)
+    @game = game
   end
 
   def display_intro
@@ -14,7 +14,7 @@ class PlayState < UmpireState
   end
 
   def display_long_prompt
-    DisplayChessBoard.display_board(@game_data.board)
+    Display.display_game(@game)
     puts
     puts "Type 'quit' anytime to return to menu, or 'save' to save game."
     puts "Submit your commands by specifying two coordinates: the piece you want to move, and the space you want to go."
@@ -23,7 +23,7 @@ class PlayState < UmpireState
   end
 
   def display_short_prompt
-    DisplayChessBoard.display_board(@game_data.board)
+    Display.display_game(@game)
     puts
   end
 
@@ -46,25 +46,28 @@ class PlayState < UmpireState
   def process_move(context, command)
     coords = command.gsub(/[\s,]+/, "")
     if coords.length != 4
-      puts "Sorry, that move is not valid."
+      puts "Sorry, that input was invalid."
       puts
     end
 
-    start_row, start_col = ChessBoardHelpers.conventional_coordinates_to_indices(coords[0], coords[1])
-    destination_row, destination_col = ChessBoardHelpers.conventional_coordinates_to_indices(coords[2], coords[3])
-    if @game_data.board.can_move?(start_row, start_col, destination_row, destination_col, @game_data.current_player)
-      @game_data.board.move(start_row, start_col, destination_row, destination_col)
+    start_row, start_col, destination_row, destination_col = coords
+    if @game.can_move?(start_row, start_col, destination_row, destination_col)
+      @game_data.move(start_row, start_col, destination_row, destination_col)
       if @game_data.checkmate? ChessGameState.get_enemy_color(@game_data.current_player)
-        DisplayChessBoard.display_board(@game_data.board)
+        Display.display_board(@game_data.board)
         puts
         return @game_data.current_player.to_s
       end
       @game_data.switch_player
       return
+    else
+      puts "Sorry, that move in invalid."
+      puts
     end
   end
 
-  def get_game_data
-    @game_data
+  # For testing
+  def get_game
+    @game
   end
 end

@@ -10,8 +10,8 @@ class SaveState < UmpireState
   end
 
   def process_input(context, game_title)
-    game_data = @current_play_state.get_game_data
-    GameSaver.save_game(game_data.id, game_title, game_data)
+    game = @current_play_state.get_game
+    GameSaver.save_game(game.id, game_title, game)
     context.set_state(@current_play_state)
     puts "Your game '#{game_title}' has been saved!"
   end

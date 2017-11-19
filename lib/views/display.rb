@@ -1,6 +1,10 @@
 require "utilities/constants"
 
-module DisplayChessBoard
+module Display
+  def self.display_game(game)
+    display_board(game.board)
+  end
+
   def self.display_board(board)
     print "   "
     ("a".."h").each { |col| print "#{col} " }

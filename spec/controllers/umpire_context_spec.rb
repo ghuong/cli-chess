@@ -26,7 +26,7 @@ describe UmpireContext do
         before do
           subject.process_input("new")
           @current_state = subject.get_state
-          @current_game_data = @current_state.get_game_data
+          @current_game = @current_state.get_game
         end
 
         it 'transitions to PlayState' do
@@ -34,7 +34,7 @@ describe UmpireContext do
         end
 
         it 'has a unique id' do
-          expect(@current_game_data.id).to eql(id)
+          expect(@current_game.id).to eql(id)
         end
 
         context "given command 'quit'" do
@@ -54,7 +54,7 @@ describe UmpireContext do
             let(:game_title) { "My Game Title" }
             before { allow(GameSaver).to receive(:save_game) }
             it 'saves the game with given title' do
-              expect(GameSaver).to receive(:save_game).with(id, game_title, @current_game_data)
+              expect(GameSaver).to receive(:save_game).with(id, game_title, @current_game)
               subject.process_input(game_title)
             end
 
@@ -100,7 +100,7 @@ describe UmpireContext do
 
             it 'has id 6' do
               subject.process_input(user_input)
-              expect(subject.get_state.get_game_data.id).to eql(id)
+              expect(subject.get_state.get_game.id).to eql(id)
             end
           end
 
