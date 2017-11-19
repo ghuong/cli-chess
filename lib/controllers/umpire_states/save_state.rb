@@ -1,6 +1,6 @@
-require "controllers/umpire_states/interactive_chess_state"
+require "controllers/umpire_states/umpire_state"
 
-class SaveState < InteractiveChessState
+class SaveState < UmpireState
   def initialize(context, current_play_state)
     super(context)
     @current_play_state = current_play_state

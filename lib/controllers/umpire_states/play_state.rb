@@ -1,9 +1,9 @@
-require "controllers/umpire_states/interactive_chess_state"
+require "controllers/umpire_states/umpire_state"
 require "controllers/umpire_states/intro_state"
 require "controllers/umpire_states/save_state"
 require "views/chess_view"
 
-class PlayState < InteractiveChessState
+class PlayState < UmpireState
   def initialize(context, game_data)
     super(context)
     @game_data = game_data

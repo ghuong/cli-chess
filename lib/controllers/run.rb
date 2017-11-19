@@ -1,14 +1,13 @@
-$: << "lib"
+require "controllers/umpire_states/umpire_context"
 
-require "controllers/umpire_states/interactive_chess_state_context"
-
-def main
-  game_context = InteractiveChessStateContext.new
+# Run the whole game
+def run
+  umpire_context = UmpireContext.new
   loop do
-    game_context.display_prompt
+    umpire_context.display_prompt
     input = gets.chomp.downcase
     puts
-    result = game_context.process_input(input)
+    result = umpire_context.process_input(input)
     case result
     when "quit"
       break
@@ -24,5 +23,3 @@ def main
   puts
   puts "Thanks for playing!"
 end
-
-main

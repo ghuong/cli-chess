@@ -1,6 +1,6 @@
 require "utilities/chess_state_helpers"
 
-class InteractiveChessState
+class UmpireState
 include ChessStateHelpers
 
   def initialize(context)

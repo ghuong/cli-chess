@@ -1,6 +1,6 @@
-require "controllers/umpire_states/interactive_chess_state"
+require "controllers/umpire_states/umpire_state"
 
-class LoadState < InteractiveChessState
+class LoadState < UmpireState
   def display_long_prompt
     puts "Saved games:"
     saved_games = GameSaver.get_list_of_saved_games

@@ -1,11 +1,11 @@
-require "controllers/umpire_states/interactive_chess_state_context"
+require "controllers/umpire_states/umpire_context"
 require "controllers/umpire_states/intro_state"
 require "controllers/umpire_states/load_state"
 require "controllers/umpire_states/play_state"
 require "controllers/umpire_states/save_state"
 require "models/chess_game_state"
 
-describe InteractiveChessStateContext do
+describe UmpireContext do
 
   context 'upon initializing' do
     it 'is in Intro state' do

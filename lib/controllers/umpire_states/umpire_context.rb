@@ -1,7 +1,7 @@
 require "controllers/umpire_states/intro_state"
 
 # State Context (using the State pattern) for the chess game
-class InteractiveChessStateContext
+class UmpireContext
   def initialize
     set_state(IntroState.new(self))
   end

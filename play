@@ -1,1 +1,1 @@
-ruby lib/controllers/play_chess.rb
+ruby play.rb

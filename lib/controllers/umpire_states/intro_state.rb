@@ -1,8 +1,8 @@
-require "controllers/umpire_states/interactive_chess_state"
+require "controllers/umpire_states/umpire_state"
 require "controllers/umpire_states/load_state"
 require "controllers/umpire_states/play_state"
 
-class IntroState < InteractiveChessState
+class IntroState < UmpireState
   def display_intro
     puts "Welcome to Chess!"
     puts
