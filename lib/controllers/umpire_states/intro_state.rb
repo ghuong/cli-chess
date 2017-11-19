@@ -3,6 +3,11 @@ require "controllers/umpire_states/load_state"
 require "controllers/umpire_states/play_state"
 
 class IntroState < UmpireState
+  def initialize
+    super
+    @not_exist_any_saves = not(UmpireHelpers.exist_any_saves?)
+  end
+
   def display_intro
     puts "Welcome to Chess!"
     puts
@@ -11,14 +16,14 @@ class IntroState < UmpireState
   def display_long_prompt
     puts "Commands:"
     puts " -- new (Starts a new game)"
-    puts " -- load (Load saved games)" unless ChessStateHelpers.is_there_no_saved_games?
+    puts " -- load (Load saved games)" unless @not_exist_any_saves
     puts " -- quit (Quit the program)"
     puts
   end
 
   def display_short_prompt
     print "Commands: new, "
-    print "load, " unless ChessStateHelpers.is_there_no_saved_games?
+    print "load, " unless @not_exist_any_saves
     print "quit\n"
     puts
   end
@@ -28,19 +33,19 @@ class IntroState < UmpireState
     when "new"
       transition_to_new_game_state(context)
     when "load"
-      if ChessStateHelpers.is_there_no_saved_games?
-        super(command)
+      if @not_exist_any_saves
+        super(context, command)
       else
         context.set_state(LoadState.new)
       end
     when "quit"
       return "quit"
     else
-      super(command)
+      super(context, command)
     end
   end
 
   def transition_to_new_game_state(context)
-    context.set_state(PlayState.new(ChessStateHelpers.get_new_game))
+    context.set_state(PlayState.new(UmpireHelpers.get_new_game))
   end
 end

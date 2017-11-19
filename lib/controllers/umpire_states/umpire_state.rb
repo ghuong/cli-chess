@@ -1,7 +1,7 @@
-require "utilities/chess_state_helpers"
+require "utilities/umpire_helpers"
 
 class UmpireState
-include ChessStateHelpers
+include UmpireHelpers
 
   def initialize
     @should_display_long_prompt = true
@@ -27,11 +27,12 @@ include ChessStateHelpers
   def display_short_prompt
     display_long_prompt
   end
+  # Display a prompt, indicating to the user to type something
   def display_prompt_sign
     print " > "
   end
   # Process user input
   def process_input(context, command)
-    ChessStateHelpers.display_invalid_command_warning
+    UmpireHelpers.display_invalid_command_warning
   end
 end

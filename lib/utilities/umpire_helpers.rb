@@ -2,15 +2,15 @@ require "utilities/game_saver"
 require "models/chess_game_state"
 
 # Helper methods to be mixed into the chess states
-module ChessStateHelpers
+module UmpireHelpers
   def self.get_new_game
     id = GameSaver.get_unique_id
     ChessGameState.new(id)
   end
 
-  def self.is_there_no_saved_games?
+  def self.exist_any_saves?
     saved_games = GameSaver.get_list_of_saved_games
-    saved_games.nil? or saved_games.empty?
+    not saved_games.nil? and not saved_games.empty?
   end
 
   def self.display_invalid_command_warning

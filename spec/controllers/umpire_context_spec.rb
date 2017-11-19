@@ -69,7 +69,7 @@ describe UmpireContext do
       context "given command 'load'" do
         context "when there are some saved games" do
           before do
-            allow(ChessStateHelpers).to receive(:is_there_no_saved_games?) { false }
+            allow(UmpireHelpers).to receive(:exist_any_saves?) { true }
             subject.process_input("load")
           end
           it 'transitions to Load state' do
