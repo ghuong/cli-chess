@@ -3,8 +3,7 @@ require "utilities/chess_state_helpers"
 class UmpireState
 include ChessStateHelpers
 
-  def initialize(context)
-    @context = context
+  def initialize
     @should_display_long_prompt = true
     display_intro
   end
@@ -32,7 +31,7 @@ include ChessStateHelpers
     print " > "
   end
   # Process user input
-  def process_input(command)
+  def process_input(context, command)
     ChessStateHelpers.display_invalid_command_warning
   end
 end

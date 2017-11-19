@@ -23,15 +23,15 @@ class IntroState < UmpireState
     puts
   end
 
-  def process_input(command)
+  def process_input(context, command)
     case command
     when "new"
-      transition_to_new_game_state
+      transition_to_new_game_state(context)
     when "load"
       if ChessStateHelpers.is_there_no_saved_games?
         super(command)
       else
-        @context.set_state(LoadState.new(@context))
+        context.set_state(LoadState.new)
       end
     when "quit"
       return "quit"
@@ -40,7 +40,7 @@ class IntroState < UmpireState
     end
   end
 
-  def transition_to_new_game_state
-    @context.set_state(PlayState.new(@context, ChessStateHelpers.get_new_game))
+  def transition_to_new_game_state(context)
+    context.set_state(PlayState.new(ChessStateHelpers.get_new_game))
   end
 end

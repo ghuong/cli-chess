@@ -4,8 +4,7 @@ require "controllers/umpire_states/save_state"
 require "views/chess_view"
 
 class PlayState < UmpireState
-  def initialize(context, game_data)
-    super(context)
+  def initialize(game_data)
     @game_data = game_data
   end
 
@@ -33,12 +32,12 @@ class PlayState < UmpireState
     print "#{color} players turn: "
   end
 
-  def process_input(command)
+  def process_input(context, command)
     case command
     when "quit"
-      @context.set_state(IntroState.new(@context))
+      context.set_state(IntroState.new)
     when "save"
-      @context.set_state(SaveState.new(@context, self))
+      context.set_state(SaveState.new(self))
     else
       coords = command.gsub(/[\s,]+/, "")
       if coords.length == 4

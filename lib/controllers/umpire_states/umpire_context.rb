@@ -1,9 +1,9 @@
 require "controllers/umpire_states/intro_state"
 
-# State Context (using the State pattern) for the chess game
+# State Context (using the State pattern) for the Umpire
 class UmpireContext
   def initialize
-    set_state(IntroState.new(self))
+    set_state(IntroState.new)
   end
 
   # called only by the chess states
@@ -21,6 +21,6 @@ class UmpireContext
   end
 
   def process_input(command)
-    @state.process_input(command)
+    @state.process_input(self, command)
   end
 end

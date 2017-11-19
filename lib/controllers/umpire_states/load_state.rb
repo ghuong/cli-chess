@@ -14,15 +14,15 @@ class LoadState < UmpireState
     print "Type game ID (or 'back' to return): "
   end
 
-  def process_input(command)
+  def process_input(context, command)
     case command
     when "back"
-      @context.set_state(IntroState.new(@context))
+      context.set_state(IntroState.new)
     else
       id = command.to_i
       game_data = GameSaver.load_game_by_id(id)
       if not game_data.nil?
-        @context.set_state(PlayState.new(@context, game_data))
+        context.set_state(PlayState.new(game_data))
       else
         puts "Sorry, '#{command}' is not a valid game ID."
         puts
