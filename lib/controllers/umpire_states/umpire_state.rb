@@ -1,7 +1,6 @@
 require "utilities/umpire_helpers"
 
 class UmpireState
-include UmpireHelpers
 
   def initialize
     @should_display_long_prompt = true
