@@ -1,5 +1,6 @@
 require "controllers/umpire_states/interactive_chess_state"
 require "controllers/umpire_states/intro_state"
+require "controllers/umpire_states/save_state"
 require "views/chess_view"
 
 class PlayState < InteractiveChessState
@@ -46,6 +47,8 @@ class PlayState < InteractiveChessState
         if @game_data.board.can_move?(start_row, start_col, destination_row, destination_col, @game_data.current_player)
           @game_data.board.move(start_row, start_col, destination_row, destination_col)
           if @game_data.checkmate? ChessGameState.get_enemy_color(@game_data.current_player)
+            DisplayChessBoard.display_board(@game_data.board)
+            puts
             return @game_data.current_player.to_s
           end
           @game_data.switch_player

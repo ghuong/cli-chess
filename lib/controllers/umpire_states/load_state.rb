@@ -7,6 +7,7 @@ class LoadState < InteractiveChessState
     saved_games.each do |game|
       puts " -- #{game[:id]}: #{game[:title]}"
     end
+    puts
   end
 
   def display_prompt_sign
@@ -24,6 +25,7 @@ class LoadState < InteractiveChessState
         @context.set_state(PlayState.new(@context, game_data))
       else
         puts "Sorry, '#{command}' is not a valid game ID."
+        puts
       end
     end
   end

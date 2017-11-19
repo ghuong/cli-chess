@@ -13,10 +13,10 @@ def main
     when "quit"
       break
     when "white"
-      "Checkmate! White wins!"
+      puts "Checkmate! White wins!"
       break
     when "black"
-      "Checkmate! Black wins!"
+      puts "Checkmate! Black wins!"
       break
     end
   end
