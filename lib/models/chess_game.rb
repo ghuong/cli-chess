@@ -1,7 +1,7 @@
 require "models/chess_board"
 
 # Holds ALL state for the game
-class ChessGameState
+class ChessGame
   attr_reader :id, :board, :current_player
 
   def initialize(id)
@@ -16,7 +16,7 @@ class ChessGameState
   end
 
   def switch_player
-    @current_player = ChessGameState.get_enemy_color(@current_player)
+    @current_player = ChessGame.get_enemy_color(@current_player)
   end
 
   def checkmate?(color)

@@ -53,7 +53,7 @@ class PlayState < UmpireState
     start_row, start_col, destination_row, destination_col = coords
     if @game.can_move?(start_row, start_col, destination_row, destination_col)
       @game_data.move(start_row, start_col, destination_row, destination_col)
-      if @game_data.checkmate? ChessGameState.get_enemy_color(@game_data.current_player)
+      if @game_data.checkmate? ChessGame.get_enemy_color(@game_data.current_player)
         Display.display_board(@game_data.board)
         puts
         return @game_data.current_player.to_s

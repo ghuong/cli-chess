@@ -3,7 +3,7 @@ require "controllers/umpire_states/intro_state"
 require "controllers/umpire_states/load_state"
 require "controllers/umpire_states/play_state"
 require "controllers/umpire_states/save_state"
-require "models/chess_game_state"
+require "models/chess_game"
 
 describe UmpireContext do
 
@@ -86,7 +86,7 @@ describe UmpireContext do
           context "given a valid 'id'" do
             let(:id) { 6 }
             let(:user_input) { "6" }
-            let(:loaded_game) { ChessGameState.new(6) }
+            let(:loaded_game) { ChessGame.new(6) }
             before { allow(GameSaver).to receive(:load_game_by_id) { loaded_game } }
             it 'transitions to Play state' do
               subject.process_input(user_input)

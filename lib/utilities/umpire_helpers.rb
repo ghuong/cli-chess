@@ -1,11 +1,11 @@
 require "utilities/game_saver"
-require "models/chess_game_state"
+require "models/chess_game"
 
 # Helper methods to be mixed into the chess states
 module UmpireHelpers
   def self.get_new_game
     id = GameSaver.get_unique_id
-    ChessGameState.new(id)
+    ChessGame.new(id)
   end
 
   def self.exist_any_saves?

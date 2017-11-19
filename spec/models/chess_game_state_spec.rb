@@ -1,9 +1,9 @@
-require "models/chess_game_state"
+require "models/chess_game"
 
-describe ChessGameState do
+describe ChessGame do
 
   let(:id) { 12 }
-  subject { ChessGameState.new(id) }
+  subject { ChessGame.new(id) }
 
   context 'given id 12' do
     it 'has the given id' do
@@ -18,13 +18,13 @@ describe ChessGameState do
   describe '.get_enemy_color' do
     context 'given :white' do
       it 'returns :black' do
-        expect(ChessGameState.get_enemy_color(:white)).to eql(:black)
+        expect(ChessGame.get_enemy_color(:white)).to eql(:black)
       end
     end
 
     context 'given :black' do
       it 'returns :white' do
-        expect(ChessGameState.get_enemy_color(:black)).to eql(:white)
+        expect(ChessGame.get_enemy_color(:black)).to eql(:white)
       end
     end
   end
