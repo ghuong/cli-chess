@@ -39,23 +39,28 @@ class PlayState < UmpireState
     when "save"
       context.set_state(SaveState.new(self))
     else
-      coords = command.gsub(/[\s,]+/, "")
-      if coords.length == 4
-        start_row, start_col = ChessBoardHelpers.conventional_coordinates_to_indices(coords[0], coords[1])
-        destination_row, destination_col = ChessBoardHelpers.conventional_coordinates_to_indices(coords[2], coords[3])
-        if @game_data.board.can_move?(start_row, start_col, destination_row, destination_col, @game_data.current_player)
-          @game_data.board.move(start_row, start_col, destination_row, destination_col)
-          if @game_data.checkmate? ChessGameState.get_enemy_color(@game_data.current_player)
-            DisplayChessBoard.display_board(@game_data.board)
-            puts
-            return @game_data.current_player.to_s
-          end
-          @game_data.switch_player
-          return
-        end
-      end
+      process_move(context, command)
+    end
+  end
+
+  def process_move(context, command)
+    coords = command.gsub(/[\s,]+/, "")
+    if coords.length != 4
       puts "Sorry, that move is not valid."
       puts
+    end
+
+    start_row, start_col = ChessBoardHelpers.conventional_coordinates_to_indices(coords[0], coords[1])
+    destination_row, destination_col = ChessBoardHelpers.conventional_coordinates_to_indices(coords[2], coords[3])
+    if @game_data.board.can_move?(start_row, start_col, destination_row, destination_col, @game_data.current_player)
+      @game_data.board.move(start_row, start_col, destination_row, destination_col)
+      if @game_data.checkmate? ChessGameState.get_enemy_color(@game_data.current_player)
+        DisplayChessBoard.display_board(@game_data.board)
+        puts
+        return @game_data.current_player.to_s
+      end
+      @game_data.switch_player
+      return
     end
   end
 
