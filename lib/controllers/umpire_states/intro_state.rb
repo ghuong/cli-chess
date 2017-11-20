@@ -34,7 +34,7 @@ class IntroState < UmpireState
       transition_to_new_game_state(context)
     when "load"
       if @not_exist_any_saves
-        super(context, command)
+        UmpireHelpers.display_invalid_command_warning
       else
         context.set_state(LoadState.new)
       end

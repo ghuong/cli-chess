@@ -65,6 +65,17 @@ module ChessBoardHelpers
       moves.include?({ row: dest_row, col: dest_col })
   end
 
+  def each_piece
+    return enum_for(:each_piece) unless block_given?
+
+    @board.each do |row|
+      row.each do |piece|
+        yield piece
+      end
+    end
+  end
+
+  # Convert conventional chess coordinates (e.g. "4D") to indices
   def self.conventional_coordinates_to_indices(row, col)
     [row.to_i - 1, col.downcase.ord - "a".ord]
   end

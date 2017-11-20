@@ -15,7 +15,8 @@ class ChessPiece
   def get_type; raise NotImplementedError end
 
   # Return an array of legal moves
-  # "Legal" means "not off the board"
+  # if ignore_allies flag is set to true, then assume that all
+  # allied pieces are enemy pieces
   def get_moves(ignore_allies = false); raise NotImplementedError end
 
   def describe_location(row, col)
@@ -78,7 +79,7 @@ module ChessPieceHelpers
   end
 
   # Loop through the given array 'moves', upon reaching
-  # a non-blank space, remove all subsequent moves
+  # any piece, remove all subsequent moves
   def select_legal_moves(moves, ignore_allies = false)
     legal_moves = []
     moves.each do |move|
@@ -95,21 +96,15 @@ module ChessPieceHelpers
     return legal_moves
   end
 
+  # Get a list of all pieces of a given color which could hypothetically move to the given position,
+  # ignoring the fact that pieces cannot capture their own color, and that 
+  # Kings cannot put themselves in check
   def get_pieces_which_can_move_to(row, col, color = nil)
-    pieces = []
-    (0...ChessBoardConstants::BOARD_DIMENSIONS).each do |r|
-      (0...ChessBoardConstants::BOARD_DIMENSIONS).each do |c|
-        piece = @board.get_piece(r, c)
-        next if not color.nil? and piece.color != color
-        next if piece.is_blank_space?
-        if piece.get_type == :king
-          next if not piece.get_moves(true, false).include?({ row: row, col: col })
-        else
-          next if not piece.get_moves(true).include?({ row: row, col: col })
-        end
-        pieces << piece
-      end
+    @board.each_piece.select do |piece|
+      (color.nil? or piece.color == color) and
+        (not piece.is_blank_space?) and
+        ((piece.get_type == :king and piece.get_moves(true, false).include?({ row: row, col: col })) or
+          (piece.get_type != :king and piece.get_moves(true).include?({ row: row, col: col })))
     end
-    return pieces
   end
 end
