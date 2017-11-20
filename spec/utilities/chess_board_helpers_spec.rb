@@ -24,6 +24,10 @@ describe ChessBoard do
           expect(subject.get_piece(7, 3).get_type).to eql(:queen)
           expect(subject.get_piece(7, 3).color).to eql(:black)
         end
+
+        it 'means no piece has moved yet' do
+          expect(subject.get_piece(0, 4).has_moved).to be false
+        end
       end
     end
 
@@ -66,6 +70,10 @@ describe ChessBoard do
 
           it 'is vacant at (3, 3)' do
             expect(subject.get_piece(3, 3).is_blank_space?).to be true
+          end
+
+          it 'has moved' do
+            expect(subject.get_piece(4, 5).has_moved).to be true
           end
         end
       end

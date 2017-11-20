@@ -52,6 +52,7 @@ module ChessBoardHelpers
     piece = get_piece(start_row, start_col)
     set_piece(dest_row, dest_col, piece)
     set_piece(start_row, start_col)
+    piece.has_moved = true
   end
 
   # Returns true iff the piece at (start_row, start_col) can be moved

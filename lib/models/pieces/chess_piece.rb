@@ -3,12 +3,13 @@ require "models/chess_board"
 # Defines a chess piece; note that "empty spaces" are also pieces
 # This class should not be instantiated directly
 class ChessPiece
-  attr_accessor :row, :col, :board
+  attr_accessor :row, :col, :board, :has_moved
   attr_reader :color
 
   def initialize(board, color)
     @board = board
     @color = color
+    @has_moved = false
   end
 
   # Return the symbol representing the class
