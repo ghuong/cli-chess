@@ -1,6 +1,5 @@
 require "models/pieces/queen"
-require "models/pieces/rook_spec"
-require "models/pieces/bishop_spec"
+require "models/pieces/shared_examples"
 
 describe Queen do
   it_behaves_like "a rook"
