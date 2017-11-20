@@ -95,16 +95,4 @@ module ChessPieceHelpers
     end
     return legal_moves
   end
-
-  # Get a list of all pieces of a given color which could hypothetically move to the given position,
-  # ignoring the fact that pieces cannot capture their own color, and that 
-  # Kings cannot put themselves in check
-  def get_pieces_which_can_move_to(row, col, color = nil)
-    @board.each_piece.select do |piece|
-      (color.nil? or piece.color == color) and
-        (not piece.is_blank_space?) and
-        ((piece.get_type == :king and piece.get_moves(true, false).include?({ row: row, col: col })) or
-          (piece.get_type != :king and piece.get_moves(true).include?({ row: row, col: col })))
-    end
-  end
 end

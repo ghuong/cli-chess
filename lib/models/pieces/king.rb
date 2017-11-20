@@ -29,6 +29,19 @@ include ChessPieceHelpers
   end
 
   def is_in_check?(row = @row, col = @col)
-    not get_pieces_which_can_move_to(row, col, ChessGame.get_enemy_color(@color)).empty?
+    not get_pieces_which_can_move_to(row, col).empty?
+  end
+
+  # Get a list of all pieces of a given color which could hypothetically move to the given position,
+  # ignoring the fact that pieces cannot capture their own color, and that 
+  # Kings cannot put themselves in check
+  def get_pieces_which_can_move_to(row, col)
+    enemy_color = ChessGame.get_enemy_color(@color)
+    @board.each_piece.select do |piece|
+      piece.color == enemy_color and
+        not piece.is_blank_space? and
+        ((piece.get_type == :king and piece.get_moves(true, false).include?({ row: row, col: col })) or
+          (piece.get_type != :king and piece.get_moves(true).include?({ row: row, col: col })))
+    end
   end
 end
