@@ -6,7 +6,7 @@ class Pawn < ChessPiece
     :pawn
   end
 
-  def get_moves(ignore_allies = false)
+  def get_moves
     direction_sign = @color == :white ? 1 : -1
     starting_row = Pawn.get_starting_row(@color)
 
@@ -23,9 +23,7 @@ class Pawn < ChessPiece
       { row: @row + (1 * direction_sign), col: @col - 1 },
       { row: @row + (1 * direction_sign), col: @col + 1 }
     ].select do |move|
-      allowed_destinations = [:enemy_piece]
-      allowed_destinations << :ally_piece if ignore_allies
-      allowed_destinations.include? describe_location(move[:row], move[:col])
+      [:enemy_piece].include? describe_location(move[:row], move[:col])
     end
 
     return forward_moves + attack_moves

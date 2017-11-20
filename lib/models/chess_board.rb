@@ -6,8 +6,6 @@ require "models/pieces/empty_space"
 class ChessBoard
 include ChessBoardHelpers
 
-  attr_reader :id
-
   def initialize
     @board = []
     ChessBoardConstants::BOARD_DIMENSIONS.times do |row|
@@ -40,5 +38,15 @@ include ChessBoardHelpers
   def is_valid_coordinates?(row, col)
     (0...ChessBoardConstants::BOARD_DIMENSIONS).cover?(row) and
     (0...ChessBoardConstants::BOARD_DIMENSIONS).cover?(col)
+  end
+
+  def get_copy
+    copy_board = ChessBoard.new
+    ChessBoardConstants::BOARD_DIMENSIONS.times do |row|
+      ChessBoardConstants::BOARD_DIMENSIONS.times do |col|
+        copy_board.set_piece(row, col, get_piece(row, col).get_copy(copy_board))
+      end
+    end
+    return copy_board
   end
 end

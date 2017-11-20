@@ -21,7 +21,7 @@ class ChessGame
   end
 
   def checkmate?(color)
-    @kings[color].is_in_check? and @kings[color].get_moves.empty?
+    @kings[color].is_under_attack? and @kings[color].get_moves.empty?
   end
 
   def can_move?(start_row, start_col, destination_row, destination_col)
@@ -45,16 +45,19 @@ class ChessGame
     spaces_inbetween = []
     case direction
     when :left
-      spaces_inbetween = [1, 2, 3]
+      spaces_inbetween = [3, 2, 1]
     when :right
       spaces_inbetween = [5, 6]
     end
     is_empty_inbetween = spaces_inbetween.all? do |col|
       @board.get_piece(rook_row, col).is_blank_space?
     end
+    spaces_crossed_by_king_are_safe = spaces_inbetween.take(2).all? do |col|
+      not @kings[color].is_under_attack?(rook_row, col)
+    end
 
-    return (rook.get_type == :rook and not rook.has_moved and not @kings[color].has_moved and
-            is_empty_inbetween and not @kings[color].is_in_check?)
+    return (rook.get_type == :rook and rook.color == color and not rook.has_moved and not @kings[color].has_moved and
+            is_empty_inbetween and spaces_crossed_by_king_are_safe and not @kings[color].is_under_attack?)
   end
 
   def self.get_enemy_color(color)

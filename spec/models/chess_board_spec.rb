@@ -50,4 +50,21 @@ describe ChessBoard do
       end
     end
   end
+
+  context 'after reset' do
+    before { subject.reset }
+      describe '#get_copy' do
+        it 'still has king at (7, 4)' do
+          expect(subject.get_copy.get_piece(7, 4).get_type).to eql(:king)
+        end
+
+        it 'returns a copy of the king' do
+          expect(subject.get_copy.get_piece(7, 4)).not_to equal(subject.get_piece(7, 4))
+        end
+
+        it 'returns a king that is not a blank space' do
+          expect(subject.get_copy.get_piece(7, 4).is_blank_space?).to be false
+        end
+      end
+  end
 end

@@ -18,7 +18,7 @@ class ChessPiece
   # Return an array of legal moves
   # if ignore_allies flag is set to true, then assume that all
   # allied pieces are enemy pieces
-  def get_moves(ignore_allies = false); raise NotImplementedError end
+  def get_moves; raise NotImplementedError end
 
   def describe_location(row, col)
     if not @board.is_valid_coordinates?(row, col)
@@ -39,12 +39,40 @@ class ChessPiece
   def is_blank_space?
     get_type == :empty
   end
+
+  # Return deep copy of the piece
+  def get_copy(board)
+    copy_piece = ChessPiece.get_new_piece(board, @color, get_type)
+    copy_piece.row = @row
+    copy_piece.col = @col
+    copy_piece.has_moved = @has_moved
+    return copy_piece
+  end
+
+  def self.get_new_piece(board, color, type)
+    case type
+    when :bishop
+      Bishop.new(board, color)
+    when :king
+      King.new(board, color)
+    when :knight
+      Knight.new(board, color)
+    when :pawn
+      Pawn.new(board, color)
+    when :queen
+      Queen.new(board, color)
+    when :rook
+      Rook.new(board, color)
+    when :empty
+      EmptySpace.new
+    end
+  end
 end
 
 # Non-essential helper methods for Chess Pieces
 module ChessPieceHelpers
   # Return all legal moves, if moving straight
-  def get_straight_moves(ignore_allies = false)
+  def get_straight_moves
     north_moves = []
     south_moves = []
     west_moves = []
@@ -55,14 +83,14 @@ module ChessPieceHelpers
       west_moves << { row: @row, col: @col - step }
       east_moves << { row: @row, col: @col + step }
     end
-    return select_legal_moves(north_moves, ignore_allies) +
-           select_legal_moves(south_moves, ignore_allies) +
-           select_legal_moves(west_moves, ignore_allies) +
-           select_legal_moves(east_moves, ignore_allies)
+    return select_legal_moves(north_moves) +
+           select_legal_moves(south_moves) +
+           select_legal_moves(west_moves) +
+           select_legal_moves(east_moves)
   end
 
   # Return all legals moves, if moving diagonally
-  def get_diagonal_moves(ignore_allies = false)
+  def get_diagonal_moves
     northwest_moves = []
     northeast_moves = []
     southwest_moves = []
@@ -73,22 +101,20 @@ module ChessPieceHelpers
       southwest_moves << { row: @row - step, col: @col - step }
       southeast_moves << { row: @row - step, col: @col + step }
     end
-    return select_legal_moves(northwest_moves, ignore_allies) +
-           select_legal_moves(northeast_moves, ignore_allies) +
-           select_legal_moves(southwest_moves, ignore_allies) +
-           select_legal_moves(southeast_moves, ignore_allies)
+    return select_legal_moves(northwest_moves) +
+           select_legal_moves(northeast_moves) +
+           select_legal_moves(southwest_moves) +
+           select_legal_moves(southeast_moves)
   end
 
   # Loop through the given array 'moves', upon reaching
   # any piece, remove all subsequent moves
-  def select_legal_moves(moves, ignore_allies = false)
+  def select_legal_moves(moves)
     legal_moves = []
     moves.each do |move|
       description = describe_location(move[:row], move[:col])
       
-      allowed_destinations = [:blank_space, :enemy_piece]
-      allowed_destinations << :ally_piece if ignore_allies
-      if allowed_destinations.include? description
+      if [:blank_space, :enemy_piece].include? description
         legal_moves << move
       end
 

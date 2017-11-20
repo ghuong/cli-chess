@@ -126,10 +126,48 @@ describe ChessGame do
               end
             end
 
-            context 'when king is in check' do
-              before { subject.board.set_piece(6, 3, Pawn.new(subject.board, :white)) }
+            context 'when king is in check by a knight' do
+              before { subject.board.set_piece(5, 3, Knight.new(subject.board, :white)) }
+
+              it 'is in check' do
+                expect(subject.board.get_piece(7, 4).is_under_attack?).to be true
+              end
+
               it 'returns false' do
                 expect_can_castle(false)
+              end
+            end
+
+            context 'when king is in check by a pawn' do
+              before { subject.board.set_piece(6, 3, Pawn.new(subject.board, :white)) }
+
+              it 'is in check' do
+                expect(subject.board.get_piece(7, 4).is_under_attack?).to be true
+              end
+
+              it 'returns false' do
+                expect_can_castle(false)
+              end
+            end
+
+            context 'when king passes through space which is under-attack' do
+              before { subject.board.set_piece(6, 3, Rook.new(subject.board, :white)) }
+              it 'returns false' do
+                expect_can_castle(false)
+              end
+            end
+
+            context 'when king lands on space which is under-attack' do
+              before { subject.board.set_piece(6, 2, Rook.new(subject.board, :white)) }
+              it 'returns false' do
+                expect_can_castle(false)
+              end
+            end
+
+            context 'when space that rook crosses is under-attack' do
+              before { subject.board.set_piece(6, 1, Rook.new(subject.board, :white)) }
+              it 'returns true' do
+                expect_can_castle
               end
             end
           end

@@ -49,6 +49,8 @@ module ChessBoardHelpers
   # Moves the piece at (start_row, start_col) to (dest_row, dest_col)
   # This method provides no safeguards against invalid moves
   def move(start_row, start_col, dest_row, dest_col)
+    if start_row == dest_row and start_col == dest_col then return end
+      
     piece = get_piece(start_row, start_col)
     set_piece(dest_row, dest_col, piece)
     set_piece(start_row, start_col)

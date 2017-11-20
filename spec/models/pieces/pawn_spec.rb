@@ -95,10 +95,17 @@ describe Pawn do
       end
     end
 
-    context 'when placed at (2, 1)' do
-      before { board.set_piece(2, 1, subject) }
+    context 'when placed at (6, 3)' do
+      before { board.set_piece(6, 3, subject) }
       it 'can move one space forward' do
-        expect(get_moves).to eql(Set.new([{ row: 3, col: 1 }]))
+        expect(get_moves).to eql(Set.new([{ row: 7, col: 3 }]))
+      end
+
+      context 'with enemy king at (7, 4)' do
+        before { board.set_piece(7, 4, King.new(board, :black)) }
+        it 'can capture the king' do
+          expect(get_moves).to include({ row: 7, col: 4 })
+        end
       end
     end
   end
