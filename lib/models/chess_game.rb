@@ -1,4 +1,5 @@
 require "models/chess_board"
+require "utilities/constants"
 
 # Holds ALL state for the game
 class ChessGame
@@ -33,6 +34,27 @@ class ChessGame
     start_row, start_col = ChessBoardHelpers.conventional_coordinates_to_indices(start_row, start_col)
     destination_row, destination_col = ChessBoardHelpers.conventional_coordinates_to_indices(destination_row, destination_col)
     @board.move(start_row, start_col, destination_row, destination_col)
+  end
+
+  # Returns true iff the King of the given 'color' can castle with its rook on the
+  # left or right, as given by the 'direction' parameter
+  def can_castle?(color, direction)
+    rook_col = direction == :left ? 0 : ChessBoardConstants::BOARD_DIMENSIONS - 1
+    rook_row = color == :white ? 0 : ChessBoardConstants::BOARD_DIMENSIONS - 1
+    rook = @board.get_piece(rook_row, rook_col)
+    spaces_inbetween = []
+    case direction
+    when :left
+      spaces_inbetween = [1, 2, 3]
+    when :right
+      spaces_inbetween = [5, 6]
+    end
+    is_empty_inbetween = spaces_inbetween.all? do |col|
+      @board.get_piece(rook_row, col).is_blank_space?
+    end
+
+    return (rook.get_type == :rook and not rook.has_moved and not @kings[color].has_moved and
+            is_empty_inbetween and not @kings[color].is_in_check?)
   end
 
   def self.get_enemy_color(color)

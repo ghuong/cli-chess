@@ -56,4 +56,96 @@ describe ChessGame do
       end
     end
   end
+
+  describe '#can_castle?' do
+    def expect_can_castle(can_castle = true)
+      expect(subject.can_castle?(color, direction)).to be can_castle
+    end
+
+    context 'given color black' do
+      let(:color) { :black }
+      let(:king) { subject.board.get_piece(7, 4) }
+
+      context 'given direction right' do
+        let(:direction) { :right }
+        let(:rook) { subject.board.get_piece(7, 7) }
+
+        context 'when there are no pieces in-between' do
+          before do
+            subject.board.set_piece(7, 5)
+            subject.board.set_piece(7, 6)
+          end
+
+          context 'when rook has moved' do
+            before { rook.has_moved = true }
+            it 'returns false' do
+              expect_can_castle(false)
+            end
+          end
+
+          context 'when king has moved' do
+            before { king.has_moved = true }
+            it 'returns false' do
+              expect_can_castle(false)
+            end
+          end
+
+          context 'when neither king nor rook have moved' do
+            context 'when king is not in check' do
+              it 'returns true' do
+                expect_can_castle
+              end
+            end
+          end
+        end
+
+        context 'when there is one piece in-between' do
+          before { subject.board.set_piece(7, 5) }
+          context 'when neither king nor rook have moved' do
+            it 'returns false' do
+              expect_can_castle(false)
+            end
+          end
+        end
+      end
+
+      context 'given direction left' do
+        let(:direction) { :left }
+        let(:rook) { subject.board.get_piece(7, 0) }
+
+        context 'when neither king nor rook have moved' do
+          context 'when there are no pieces in-between' do
+            before do
+              subject.board.set_piece(7, 1)
+              subject.board.set_piece(7, 2)
+              subject.board.set_piece(7, 3)
+            end
+            context 'when king is not in check' do
+              it 'returns true' do
+                expect_can_castle
+              end
+            end
+
+            context 'when king is in check' do
+              before { subject.board.set_piece(6, 3, Pawn.new(subject.board, :white)) }
+              it 'returns false' do
+                expect_can_castle(false)
+              end
+            end
+          end
+
+          context 'when there is one piece in-between' do
+            before do
+              subject.board.set_piece(7, 1)
+              subject.board.set_piece(7, 2)
+            end
+
+            it 'returns false' do
+              expect_can_castle(false)
+            end
+          end
+        end
+      end
+    end
+  end
 end
