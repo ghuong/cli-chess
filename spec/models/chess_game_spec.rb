@@ -1,4 +1,5 @@
 require "models/chess_game"
+require "views/display"
 
 describe ChessGame do
 
@@ -182,6 +183,51 @@ describe ChessGame do
               expect_can_castle(false)
             end
           end
+        end
+      end
+    end
+  end
+
+  describe '#castle' do
+    def expect_proper_castle(king_row, king_col, rook_row, rook_col)
+      subject.castle(color, direction)
+      Display.display_game(subject)
+      expect(subject.board.get_piece(king_row, king_col).get_type).to eql(:king)
+      expect(subject.board.get_piece(rook_row, rook_col).get_type).to eql(:rook)
+      expect(subject.board.get_piece(king_row, king_col).color).to eql(color)
+      expect(subject.board.get_piece(king_row, king_col).color).to eql(color)
+    end
+
+    context 'given color black' do
+      let(:color) { :black }
+      context 'given direction left' do
+        let(:direction) { :left }
+        it 'castles properly' do
+          expect_proper_castle(7, 2, 7, 3)
+        end
+      end
+
+      context 'given direction right' do
+        let(:direction) { :right }
+        it 'castles properly' do
+          expect_proper_castle(7, 6, 7, 5)
+        end
+      end
+    end
+
+    context 'given color white' do
+      let(:color) { :white }
+      context 'given direction left' do
+        let(:direction) { :left }
+        it 'castles properly' do
+          expect_proper_castle(0, 2, 0, 3)
+        end
+      end
+
+      context 'given direction right' do
+        let(:direction) { :right }
+        it 'castles properly' do
+          expect_proper_castle(0, 6, 0, 5)
         end
       end
     end

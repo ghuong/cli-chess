@@ -39,11 +39,11 @@ module ChessBoardHelpers
       set_piece(black_row, col, Bishop.new(self, :black))
     end
     # queens
-    set_piece(white_row, 3, Queen.new(self, :white))
-    set_piece(black_row, 3, Queen.new(self, :black))
+    set_piece(white_row, ChessBoardConstants::QUEEN_COLUMN, Queen.new(self, :white))
+    set_piece(black_row, ChessBoardConstants::QUEEN_COLUMN, Queen.new(self, :black))
     # kings
-    set_piece(white_row, 4, King.new(self, :white))
-    set_piece(black_row, 4, King.new(self, :black))
+    set_piece(white_row, ChessBoardConstants::KING_COLUMN, King.new(self, :white))
+    set_piece(black_row, ChessBoardConstants::KING_COLUMN, King.new(self, :black))
   end
 
   # Moves the piece at (start_row, start_col) to (dest_row, dest_col)

@@ -1,6 +1,10 @@
 module ChessBoardConstants
   # Number of rows and columns of a ChessBoard
   BOARD_DIMENSIONS = 8.freeze
+  # Starting column for Kings
+  KING_COLUMN = 4.freeze
+  # Starting column for Queens
+  QUEEN_COLUMN = 3.freeze
 end
 
 module GameStateConstants

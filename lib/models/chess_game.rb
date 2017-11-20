@@ -60,6 +60,17 @@ class ChessGame
             is_empty_inbetween and spaces_crossed_by_king_are_safe and not @kings[color].is_under_attack?)
   end
 
+  def castle(color, direction)
+    rook_col = direction == :left ? 0 : ChessBoardConstants::BOARD_DIMENSIONS - 1
+    rook_row = color == :white ? 0 : ChessBoardConstants::BOARD_DIMENSIONS - 1
+    rook = @board.get_piece(rook_row, rook_col)
+    king = @kings[color]
+    king_direction = direction == :left ? -1 : 1
+
+    @board.move(king.row, king.col, king.row, ChessBoardConstants::KING_COLUMN + 2 * king_direction)
+    @board.move(rook.row, rook.col, rook.row, ChessBoardConstants::KING_COLUMN + king_direction)
+  end
+
   def self.get_enemy_color(color)
     case color
     when :black
