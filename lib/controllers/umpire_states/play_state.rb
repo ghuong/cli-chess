@@ -17,8 +17,7 @@ class PlayState < UmpireState
     Display.display_game(@game)
     puts
     puts "Type 'quit' anytime to return to menu, or 'save' to save game."
-    puts "Submit your commands by specifying two coordinates: the piece you want to move, and the space you want to go."
-    puts "e.g. '2d 4d' will move the white pawn at 2d to 4d."
+    puts "Submit moves like '2d 4d'; to castle, type 'castle left' or 'castle right'"
     puts
   end
 
@@ -38,6 +37,10 @@ class PlayState < UmpireState
       context.set_state(IntroState.new)
     when "save"
       context.set_state(SaveState.new(self))
+    when "castle left"
+      process_castle(:left)
+    when "castle right"
+      process_castle(:right)
     else
       process_move(context, command)
     end
@@ -48,6 +51,7 @@ class PlayState < UmpireState
     if coords.length != 4
       puts "Sorry, that input was invalid."
       puts
+      return
     end
 
     start_row, start_col, destination_row, destination_col = coords[0], coords[1], coords[2], coords[3]
@@ -61,7 +65,17 @@ class PlayState < UmpireState
       @game.switch_player
       return
     else
-      puts "Sorry, that move in invalid."
+      puts "Sorry, that move is invalid."
+      puts
+    end
+  end
+
+  def process_castle(direction)
+    if @game.can_castle?(direction)
+      @game.castle(direction)
+      @game.switch_player
+    else
+      puts "You cannot castle."
       puts
     end
   end

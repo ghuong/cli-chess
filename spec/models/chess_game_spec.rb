@@ -60,7 +60,7 @@ describe ChessGame do
 
   describe '#can_castle?' do
     def expect_can_castle(can_castle = true)
-      expect(subject.can_castle?(color, direction)).to be can_castle
+      expect(subject.can_castle?(direction, color)).to be can_castle
     end
 
     context 'given color black' do
@@ -190,7 +190,7 @@ describe ChessGame do
 
   describe '#castle' do
     def expect_proper_castle(king_row, king_col, rook_row, rook_col)
-      subject.castle(color, direction)
+      subject.castle(direction, color)
       Display.display_game(subject)
       expect(subject.board.get_piece(king_row, king_col).get_type).to eql(:king)
       expect(subject.board.get_piece(rook_row, rook_col).get_type).to eql(:rook)

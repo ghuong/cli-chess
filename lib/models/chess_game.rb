@@ -38,7 +38,7 @@ class ChessGame
 
   # Returns true iff the King of the given 'color' can castle with its rook on the
   # left or right, as given by the 'direction' parameter
-  def can_castle?(color, direction)
+  def can_castle?(direction, color = @current_player)
     rook_col = direction == :left ? 0 : ChessBoardConstants::BOARD_DIMENSIONS - 1
     rook_row = color == :white ? 0 : ChessBoardConstants::BOARD_DIMENSIONS - 1
     rook = @board.get_piece(rook_row, rook_col)
@@ -60,7 +60,7 @@ class ChessGame
             is_empty_inbetween and spaces_crossed_by_king_are_safe and not @kings[color].is_under_attack?)
   end
 
-  def castle(color, direction)
+  def castle(direction, color = @current_player)
     rook_col = direction == :left ? 0 : ChessBoardConstants::BOARD_DIMENSIONS - 1
     rook_row = color == :white ? 0 : ChessBoardConstants::BOARD_DIMENSIONS - 1
     rook = @board.get_piece(rook_row, rook_col)
