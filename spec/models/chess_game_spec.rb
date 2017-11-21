@@ -267,4 +267,13 @@ describe ChessGame do
       end
     end
   end
+
+  describe 'pawn promotion' do
+    context 'when white pawn reaches last rank' do
+      before { subject.board.set_piece(7, 0, Pawn.new(subject.board, :white)) }
+      it 'is a pawn promotion' do
+        expect(subject.is_pawn_promotion?("8", "A")).to be true
+      end
+    end
+  end
 end

@@ -77,6 +77,30 @@ class ChessGame
     @board.advance_turn
   end
 
+  def is_pawn_promotion?(row, col)
+    row, col = ChessBoardHelpers.conventional_coordinates_to_indices(row, col)
+    return (@board.is_valid_coordinates?(row, col) and
+            @board.get_piece(row, col).get_type == :pawn and
+            (@board.get_piece(row, col).row == 0 or
+             @board.get_piece(row, col).row == ChessBoardConstants::BOARD_DIMENSIONS - 1))
+  end
+
+  def promote_pawn(row, col, type)
+    row, col = ChessBoardHelpers.conventional_coordinates_to_indices(row, col)
+    color = @board.get_piece(row, col).color
+    case type
+    when :bishop
+      new_piece = Bishop.new(@board, color)
+    when :knight
+      new_piece = Knight.new(@board, color)
+    when :rook
+      new_piece = Rook.new(@board, color)
+    else
+      new_piece = Queen.new(@board, color)
+    end
+    @board.set_piece(row, col, new_piece)
+  end
+
   def self.get_enemy_color(color)
     case color
     when :black

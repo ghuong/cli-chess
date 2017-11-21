@@ -57,6 +57,12 @@ class PlayState < UmpireState
     start_row, start_col, destination_row, destination_col = coords[0], coords[1], coords[2], coords[3]
     if @game.can_move?(start_row, start_col, destination_row, destination_col)
       @game.move(start_row, start_col, destination_row, destination_col)
+      if @game.is_pawn_promotion?(destination_row, destination_col)
+        Display.display_game(@game)
+        puts
+        promote_pawn(destination_row, destination_col)
+      end
+
       if @game.checkmate? ChessGame.get_enemy_color(@game.get_current_player)
         Display.display_game(@game)
         puts
@@ -72,11 +78,18 @@ class PlayState < UmpireState
   def process_castle(direction)
     if @game.can_castle?(direction)
       @game.castle(direction)
-      @game.switch_player
     else
       puts "You cannot castle."
       puts
     end
+  end
+
+  def promote_pawn(row, col)
+    puts "What do you want to promote your pawn to?"
+    print " > "
+    type = gets.chomp.downcase.to_sym
+    puts
+    @game.promote_pawn(row, col, type)
   end
 
   # For testing
