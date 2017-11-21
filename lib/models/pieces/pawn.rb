@@ -44,9 +44,9 @@ class Pawn < ChessPiece
 
     is_moving_to_blank = describe_location(move[:row], move[:col]) == :blank_space
     side_piece = @board.get_piece(@row, move[:col])
-    is_passing_enemy_pawn = describe_location(@row, move[:col]) == :enemy_piece and
-                            side_piece.get_type == :pawn and
-                            side_piece.is_vulnerable_to_en_passant?
+    is_passing_enemy_pawn = (describe_location(@row, move[:col]) == :enemy_piece and
+                             side_piece.get_type == :pawn and
+                             side_piece.is_vulnerable_to_en_passant?)
     if is_moving_to_blank and is_passing_enemy_pawn
       return side_piece
     else

@@ -234,7 +234,7 @@ describe ChessGame do
       end
     end
 
-    context 'when pawn moves forward two spaces' do
+    context 'when white pawn moves forward two spaces' do
       let(:victim_pawn) { subject.board.get_piece(3, 0) }
       let(:attacker_pawn) { subject.board.get_piece(3, 1) }
       before do
@@ -256,9 +256,13 @@ describe ChessGame do
       end
 
       context 'but opponent ignores it' do
-        before { subject.board.advance_turn }
+        before do
+          subject.board.advance_turn
+          subject.board.advance_turn
+        end
         it 'is no longer vulnerable to en passant' do
           expect(victim_pawn.is_vulnerable_to_en_passant?).to be false
+          expect(subject.can_move?("4", "B", "3", "A")).to be false
         end
       end
     end
