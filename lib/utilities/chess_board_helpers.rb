@@ -52,9 +52,16 @@ module ChessBoardHelpers
     if start_row == dest_row and start_col == dest_col then return end
       
     piece = get_piece(start_row, start_col)
+
+    if piece.get_type == :pawn
+      en_passant_capture = piece.get_en_passant_capture({ row: dest_row, col: dest_col })
+      if not en_passant_capture.nil?
+        set_piece(en_passant_capture.row, en_passant_capture.col)
+      end
+    end
     set_piece(dest_row, dest_col, piece)
     set_piece(start_row, start_col)
-    piece.has_moved = true
+    piece.notify(start_row, start_col)
   end
 
   # Returns true iff the piece at (start_row, start_col) can be moved

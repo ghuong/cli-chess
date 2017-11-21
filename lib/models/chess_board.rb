@@ -6,11 +6,14 @@ require "models/pieces/empty_space"
 class ChessBoard
 include ChessBoardHelpers
 
+  attr_reader :turn
+
   def initialize
     @board = []
     ChessBoardConstants::BOARD_DIMENSIONS.times do |row|
       @board << [EmptySpace.new] * ChessBoardConstants::BOARD_DIMENSIONS
     end
+    @turn = 0
   end
 
   # Returns the ChessPiece at the given coordinates
@@ -38,6 +41,10 @@ include ChessBoardHelpers
   def is_valid_coordinates?(row, col)
     (0...ChessBoardConstants::BOARD_DIMENSIONS).cover?(row) and
     (0...ChessBoardConstants::BOARD_DIMENSIONS).cover?(col)
+  end
+
+  def advance_turn
+    @turn += 1
   end
 
   def get_copy

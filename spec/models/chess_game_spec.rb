@@ -13,7 +13,7 @@ describe ChessGame do
   end
 
   it 'has starting player :white' do
-    expect(subject.current_player).to eql(:white)
+    expect(subject.get_current_player).to eql(:white)
   end
 
   describe '.get_enemy_color' do
@@ -26,15 +26,6 @@ describe ChessGame do
     context 'given :black' do
       it 'returns :white' do
         expect(ChessGame.get_enemy_color(:black)).to eql(:white)
-      end
-    end
-  end
-
-  describe '#switch_player' do
-    context 'after calling' do
-      before { subject.switch_player }
-      it 'has current player :black' do
-        expect(subject.current_player).to eql(:black)
       end
     end
   end
@@ -228,6 +219,46 @@ describe ChessGame do
         let(:direction) { :right }
         it 'castles properly' do
           expect_proper_castle(0, 6, 0, 5)
+        end
+      end
+    end
+  end
+
+  describe 'en passant move' do
+    context 'when pawn moves forward one space' do
+      before { subject.move("2", "A", "3", "A") }
+      it 'is not vulnerable to en passant on following turn' do
+        pawn = subject.board.get_piece(2, 0)
+        expect(pawn.get_type).to eql(:pawn)
+        expect(pawn.is_vulnerable_to_en_passant?).to be false
+      end
+    end
+
+    context 'when pawn moves forward two spaces' do
+      let(:victim_pawn) { subject.board.get_piece(3, 0) }
+      let(:attacker_pawn) { subject.board.get_piece(3, 1) }
+      before do
+        subject.move("2", "A", "4", "A")
+        subject.board.set_piece(3, 1, Pawn.new(subject.board, :black))
+      end
+      it 'is vulnerable to en passant on following turn' do
+        expect(victim_pawn.get_type).to eql(:pawn)
+        expect(victim_pawn.is_vulnerable_to_en_passant?).to be true
+      end
+
+      it 'can be captured by enemy pawn "en passant"' do
+        expect(subject.can_move?("4", "B", "3", "A")).to be true
+      end
+
+      it 'is captured after "en passant" move' do
+        subject.move("4", "B", "3", "A")
+        expect(subject.board.get_piece(3, 0).is_blank_space?).to be true
+      end
+
+      context 'but opponent ignores it' do
+        before { subject.board.advance_turn }
+        it 'is no longer vulnerable to en passant' do
+          expect(victim_pawn.is_vulnerable_to_en_passant?).to be false
         end
       end
     end

@@ -20,6 +20,11 @@ class ChessPiece
   # allied pieces are enemy pieces
   def get_moves; raise NotImplementedError end
 
+  # Notify this piece that it has just moved, and from where
+  def notify(start_row, start_col)
+    @has_moved = true
+  end
+
   def describe_location(row, col)
     if not @board.is_valid_coordinates?(row, col)
       return :off_board
